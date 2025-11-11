@@ -4,7 +4,29 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>CBT Bahasa Indonesia - 30 Soal HOTS</title>
+
 <style>
+/* Perbaikan agar tombol menu tetap bisa diklik di HP */
+.menu-btn {
+  position: relative;
+  z-index: 2001; /* pastikan di atas elemen lain */
+}
+
+/* Pastikan drawer muncul di atas konten di HP */
+@media (max-width: 900px) {
+  #drawer {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    width: 85%;
+    max-width: 320px;
+    height: calc(100vh - 80px);
+    background: var(--card);
+    z-index: 2000;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+}
+
   :root{
     --blue-900:#0b3d91;
     --blue-700:#1565c0;
@@ -1050,7 +1072,15 @@ btnLogin.addEventListener('click', ()=>{
   renderQuestion();
   startTimer();
 });
-menuToggle.addEventListener('click', ()=>{ drawer.classList.toggle('hidden'); });
+menuToggle.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  drawer.classList.toggle('hidden');
+});
+document.addEventListener('click', (e)=>{
+  if (!drawer.classList.contains('hidden') && !drawer.contains(e.target) && !menuToggle.contains(e.target)) {
+    drawer.classList.add('hidden');
+  }
+});
 
 // navigation
 btnPrev.addEventListener('click', ()=>{ if(current>0){ current--; renderQuestion(); } });
@@ -1138,4 +1168,3 @@ showView(loginView);
 </script>
 </body>
 </html>
-
